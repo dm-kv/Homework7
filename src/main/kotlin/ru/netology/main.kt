@@ -2,6 +2,7 @@ package ru.netology
 
 data class Comment (
     var id: Int,
+    var commentId: Int,
     val fromId: Int,
     val date: Int,
     val text: String,
@@ -32,9 +33,12 @@ class WallService {
     fun createComment(postId: Int, comment: Comment): Comment {
         val service = WallService()
         if (service.findById(postId)) {
-            comments[postId] = comment.copy()
+            comment.commentId = postId
+            comments += comment
             return comment
         } else throw PostNotFoundException ("No posts with this id $postId")
     }
+
+    companion object
 }
 

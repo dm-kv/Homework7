@@ -1,30 +1,39 @@
 package ru.netology
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.Int
-
+import kotlin.collections.plus
 
 class WallServiceTest {
+    var service = WallService()
+
+    @BeforeEach
+    fun clearBeforeTest() {
+        service.clear()
+    }
+
     @Test
     fun createComment() {
         val post = Post(
-            id = 17,
+            id = 1,
             date = 25,
             fromId = 35,
             text = "text text"
         )
 
         val comment = Comment(
-            id = 137,
-            commentId = 17,
+            id = 1,
+            commentId = 1,
             fromId = 90,
             date = 4,
             text = "new comment",
         )
 
-        val newComment = WallService.createComment(17, comment)
-        assertEquals(17, newComment.commentId)
+        service.add(post)
+        val newComment = service.createComment(1, comment)
+        assertEquals(1, newComment.commentId)
     }
 
     @Test(expected = PostNotFoundException::class)
@@ -43,9 +52,18 @@ class WallServiceTest {
             date = 4,
             text = "new comment",
         )
-        WallService.createComment(33, comment)
+        service.createComment(33, comment)
     }
 }
+
+
+
+
+
+
+
+
+
 
 
 

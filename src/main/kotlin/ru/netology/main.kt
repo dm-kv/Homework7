@@ -1,4 +1,5 @@
 package ru.netology
+import ru.netology.WallService
 
 data class Comment (
     var id: Int,
@@ -20,6 +21,17 @@ class PostNotFoundException(message: String) : RuntimeException(message)
 class WallService {
     private var posts = emptyArray<Post>()
     private var comments = emptyArray<Comment>()
+    private var prId: Int = 1
+
+    fun clear() {
+        posts = emptyArray()
+        prId = 1
+    }
+
+    fun add(post: Post): Post {
+        posts += post.copy(id = prId++)
+        return posts.last()
+    }
 
     fun findById(postId: Int) : Boolean {
         for ((index, post) in posts.withIndex()) {
@@ -38,7 +50,5 @@ class WallService {
             return comment
         } else throw PostNotFoundException ("No posts with this id $postId")
     }
-
-    companion object
 }
 

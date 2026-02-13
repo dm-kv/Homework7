@@ -22,10 +22,9 @@ class WallService {
     private var comments = emptyArray<Comment>()
     private var prId: Int = 1
 
-
     fun clear() {
         posts = emptyArray()
-        prId = 0
+        prId = 1
     }
 
     fun add(post: Post): Post {
@@ -43,7 +42,7 @@ class WallService {
     }
 
     fun createComment(postId: Int, comment: Comment): Comment {
-        if (WallService().findById(postId)) {
+        if (findById(postId)) {
             comment.commentId = postId
             comments += comment
             return comment

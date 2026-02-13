@@ -1,5 +1,4 @@
 package ru.netology
-import ru.netology.WallService
 
 data class Comment (
     var id: Int,
@@ -23,9 +22,10 @@ class WallService {
     private var comments = emptyArray<Comment>()
     private var prId: Int = 1
 
+
     fun clear() {
         posts = emptyArray()
-        prId = 1
+        prId = 0
     }
 
     fun add(post: Post): Post {
@@ -43,8 +43,7 @@ class WallService {
     }
 
     fun createComment(postId: Int, comment: Comment): Comment {
-        val service = WallService()
-        if (service.findById(postId)) {
+        if (WallService().findById(postId)) {
             comment.commentId = postId
             comments += comment
             return comment

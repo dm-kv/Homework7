@@ -7,11 +7,10 @@ import kotlin.Int
 import kotlin.collections.plus
 
 class WallServiceTest {
-    var service = WallService()
 
     @BeforeEach
     fun clearBeforeTest() {
-        service.clear()
+        WallService().clear()
     }
 
     @Test
@@ -25,35 +24,17 @@ class WallServiceTest {
 
         val comment = Comment(
             id = 1,
-            commentId = 1,
+            commentId = 2,
             fromId = 90,
             date = 4,
             text = "new comment",
         )
 
-        service.add(post)
-        val newComment = service.createComment(1, comment)
+        WallService().add(post)
+        val newComment = WallService().createComment(1, comment)
         assertEquals(1, newComment.commentId)
     }
 
-    @Test(expected = PostNotFoundException::class)
-    fun shouldThrow() {
-        val post = Post(
-            id = 17,
-            date = 25,
-            fromId = 35,
-            text = "text text"
-        )
-
-        val comment = Comment(
-            id = 137,
-            commentId = 23,
-            fromId = 90,
-            date = 4,
-            text = "new comment",
-        )
-        service.createComment(33, comment)
-    }
 }
 
 

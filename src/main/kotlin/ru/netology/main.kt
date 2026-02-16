@@ -63,11 +63,11 @@ class WallService {
         } else throw PostNotFoundException ("No posts with this id $postId")
     }
 
-    fun reportComment(report: Report, comment: Comment): Report {
+    fun reportComment(report: Report, comment: Comment): Int {
         if (report.commentId == comment.commentId) {
             if (checkTheReason(report.reason)) {
                 reports += report
-                return report
+                return 1
             } else throw ReasonNotFoundException ("This reason does not exist")
         } else throw PostNotFoundException ("No posts with this id")
     }

@@ -15,11 +15,19 @@ data class Post(
     val text: String,
 )
 
+data class Report(
+    val ownerId: Int,
+    val commentId: Int,
+    var reason: Int,
+)
+
 class PostNotFoundException(message: String) : RuntimeException(message)
+class ReasonNotFoundException(message: String) : RuntimeException(message)
 
 class WallService {
     private var posts = emptyArray<Post>()
     private var comments = emptyArray<Comment>()
+    private var reports = emptyArray<Report>()
     private var prId: Int = 1
 
     fun clear() {
@@ -41,12 +49,27 @@ class WallService {
         return false
     }
 
+    fun checkTheReason(reason: Int) = when (reason) {
+        in 0..6 -> true
+        8 -> true
+        else -> false
+    }
+
     fun createComment(postId: Int, comment: Comment): Comment {
         if (findById(postId)) {
             comment.commentId = postId
             comments += comment
             return comment
         } else throw PostNotFoundException ("No posts with this id $postId")
+    }
+
+    fun reportComment(report: Report, comment: Comment): Report {
+        if (report.commentId == comment.commentId) {
+            if (checkTheReason(report.reason)) {
+                reports += report
+                return report
+            } else throw ReasonNotFoundException ("This reason does not exist")
+        } else throw PostNotFoundException ("No posts with this id")
     }
 }
 
